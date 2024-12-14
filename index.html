@@ -4,7 +4,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-    <title>RPG Magic System</title>
+    <title>Spelldice Helper</title>
     <style>
         body {
             font-family: Questrial, Arial, sans-serif;
@@ -19,15 +19,15 @@
         }
         .diceValues, .dicePoolSummary {
             margin-top: 10px;
-            font-size: 24px; /* Match the size of other text */
-            font-family: Arial, sans-serif; /* Ensure it matches the body font */
+            font-size: 24px; /* CSS screws this up otherwise */
+            font-family: Questrial, Arial, sans-serif; /* Ensure it matches the body font */
         }
     </style>
 </head>
 <body>
-    <h1>RPG Magic System</h1>
+    <h1>Spelldice tool</h1>
     <p>
-        Number of dice: 
+        Number of dice to use: 
         <input type="range" id="diceSlider" min="1" max="10" value="1" oninput="updateSliderValue()"> 
         <span id="sliderValue">1</span>
     </p>
@@ -35,7 +35,7 @@
     
     <div id="resultBox">
         <div class="diceValues" id="diceValues"></div>
-        <strong>Result:</strong> <span id="resultText">Roll the dice to see results!</span>
+        <strong>Result:</strong> <span id="resultText">Choose the number of dice you are using and click roll.</span>
         <div class="dicePoolSummary" id="dicePoolSummary"></div>
     </div>
 
@@ -58,7 +58,7 @@
             // Roll the dice and process results
             for (let i = 0; i < numDice; i++) {
                 const roll = Math.floor(Math.random() * 6) + 1; // Roll a 6-sided die
-                diceResults.push(roll); // Store the roll result
+                diceResults.push(roll); // We only care about 1 or 6
                 if (roll === 6) totalSixes++;
                 if (roll === 1) totalOnes++;
 
@@ -75,9 +75,9 @@
             
             if (totalOnes > 1) {
                 const mishapLevel = totalOnes - 1;
-                resultMessage += `There was a level ${mishapLevel} mishap with the spell! <p>`;
+                resultMessage += ` There was a level ${mishapLevel} mishap with the spell.`;
             } else {
-                resultMessage += "The spell was cast successfully!";
+                resultMessage += " ";
             }
 
             // Update the individual dice results FIRST
@@ -88,7 +88,7 @@
             document.getElementById('resultText').textContent = resultMessage;
 
             // Display the dice pool summary
-            document.getElementById('dicePoolSummary').textContent = `Kept Dice: ${keptDice}, Discarded Dice: ${discardedDice}`;
+            document.getElementById('dicePoolSummary').textContent = `After the casting ${discardedDice} are lost and ${keptDice} return to your pool.`;
         }
     </script>
 </body>
